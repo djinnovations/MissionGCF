@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/darkorange"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/rlPlayCtrl"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp">
+
+        <ImageView
+            android:id="@+id/selected_track_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:id="@+id/selected_track_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:paddingStart="8dp"
+            android:text="" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlPlayCtrl"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
+
+        <ProgressBar
+            android:id="@+id/player_progress"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:theme="@style/ProgressBarTheme"
+            android:indeterminate="true"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/player_control"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
