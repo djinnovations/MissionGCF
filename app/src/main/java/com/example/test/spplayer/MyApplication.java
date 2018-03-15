@@ -3,6 +3,12 @@ package com.example.test.spplayer;
 import android.app.Application;
 import android.os.Handler;
 
+import com.example.test.spplayer.network.NetworkModule;
+
+import javax.inject.Singleton;
+
+import dagger.Component;
+
 /**
  * Created by User on 14-03-2018.
  */
@@ -31,4 +37,5 @@ public class MyApplication extends Application {
         ourInstance = this;
         uiHandler = new Handler();
     }
+
 }

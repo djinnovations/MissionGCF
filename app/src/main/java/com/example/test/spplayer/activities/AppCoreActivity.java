@@ -1,6 +1,7 @@
 package com.example.test.spplayer.activities;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +9,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.test.spplayer.MyApplication;
+import com.example.test.spplayer.daggerinjector.DaggerDeps;
+import com.example.test.spplayer.daggerinjector.Deps;
+import com.example.test.spplayer.interfaces.ProgressUpdateView;
 import com.example.test.spplayer.interfaces.SCService;
+import com.example.test.spplayer.network.NetworkModule;
 import com.example.test.spplayer.uiutils.ColoredSnackbar;
 import com.example.test.spplayer.utils.ApiUtils;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +27,7 @@ import retrofit2.Response;
  * Created by User on 14-03-2018.
  */
 
-public abstract class AppCoreActivity extends AppCompatActivity {
+public abstract class AppCoreActivity extends AppCompatActivity implements ProgressUpdateView{
 
     private String TAG = "AppCoreActivity";
 
@@ -29,7 +36,20 @@ public abstract class AppCoreActivity extends AppCompatActivity {
     protected abstract View getViewForLayoutAccess();
     public abstract Activity getSelf();
 
-    protected void startProgress() {
+    private Deps deps;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        File cacheFile = new File(getCacheDir(), "responses");
+        deps = DaggerDeps.builder().networkModule(new NetworkModule(cacheFile)).build();
+    }
+
+    public Deps getDeps() {
+        return deps;
+    }
+
+    public void startProgress() {
         Runnable runnable = new Runnable() {
             public void run() {
                 AppCoreActivity.this.progressBar = getProgressBar();
@@ -40,7 +60,7 @@ public abstract class AppCoreActivity extends AppCompatActivity {
         MyApplication.getInstance().getUiHandler().post(runnable);
     }
 
-    protected void stopProgress() {
+    public void stopProgress() {
         Runnable runnable = new Runnable() {
             public void run() {
                 if (progressBar != null)

@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.test.spplayer.activities.BaseActivity;
-import com.example.test.spplayer.activities.ModifiedMainActivity;
+import com.example.test.spplayer.home.ModifiedMainActivity;
 import com.example.test.spplayer.adapters.TrackAdapter;
 import com.example.test.spplayer.models.Track;
 

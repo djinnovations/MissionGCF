@@ -1,4 +1,4 @@
-package com.example.test.spplayer.activities;
+package com.example.test.spplayer.home;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.test.spplayer.R;
+import com.example.test.spplayer.activities.BaseActivity;
 import com.example.test.spplayer.adapters.TrackAdapter;
 import com.example.test.spplayer.fragments.MainFragment;
 import com.example.test.spplayer.fragments.MediaCtrlFragment;
@@ -24,7 +25,7 @@ import retrofit2.Response;
  * Created by User on 14-03-2018.
  */
 
-public class ModifiedMainActivity extends BaseActivity{
+public class ModifiedMainActivity extends BaseActivity {
 
     private static final String TAG = "ModifiedMainActivity";
     @BindView(R.id.progressBar)
@@ -38,8 +39,9 @@ public class ModifiedMainActivity extends BaseActivity{
     private MediaCtrlFragment mediaCtrlFragment;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getDeps().inject(this);
         setContentView(R.layout.activity_main_modified);
         ButterKnife.bind(this);
 
@@ -110,4 +112,22 @@ public class ModifiedMainActivity extends BaseActivity{
 
     }
 
+    @Override
+    public void serverCallEnd(Object response) {
+        if (mainFragment != null) {
+            if (mainFragment.isAdded()) {
+                try {
+                    List<Track> tracks = (List<Track>) response;
+                    for (Track data : tracks) {
+                        data.setViewType(TrackAdapter.DEFAULT);
+                    }
+                    onTrackSelection(tracks.get(0));
+                    mainFragment.changeData(tracks);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    setErrMsg("Something went wrong");
+                }
+            }
+        }
+    }
 }

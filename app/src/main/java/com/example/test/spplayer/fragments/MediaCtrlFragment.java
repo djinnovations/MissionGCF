@@ -100,6 +100,9 @@ public class MediaCtrlFragment extends BaseFragment {
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             mBoundService = ((MediaPlayerService.LocalBinder) service).getService();
+            if (mBoundService.isMediaPlaying())
+                player_control.setImageResource(android.R.drawable.ic_media_pause);
+            else player_control.setImageResource(android.R.drawable.ic_media_play);
 
             Toast.makeText(MyApplication.getInstance(), "Service connected",
                     Toast.LENGTH_SHORT).show();

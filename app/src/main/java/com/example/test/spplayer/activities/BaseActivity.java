@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.example.test.spplayer.home.ModifiedMainPresenter;
+import com.example.test.spplayer.network.RestPrimaryService;
 import com.example.test.spplayer.utils.ApiUtils;
 import com.example.test.spplayer.interfaces.SCService;
 import com.example.test.spplayer.uiutils.ColoredSnackbar;
@@ -12,6 +14,8 @@ import com.example.test.spplayer.utils.IDUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,11 +63,16 @@ public abstract class BaseActivity extends AppCoreActivity {
 
     protected static final int RECENT_TRACKS_CALL = IDUtils.generateViewId();
 
+    @Inject
+    public RestPrimaryService service;
+
     public void queryForRecentTracks(String date){
         if (TextUtils.isEmpty(date))
             return;
-        startProgress();
-        delegateRetrofitCallback(RECENT_TRACKS_CALL, getRestCallService().getRecentTracks(date));
+        //startProgress();
+        ModifiedMainPresenter presenter = new ModifiedMainPresenter(service, this);
+        presenter.getTrackList(date);
+        //delegateRetrofitCallback(RECENT_TRACKS_CALL, getRestCallService().getRecentTracks(date));
     }
 
     @Override
